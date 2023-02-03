@@ -2,6 +2,7 @@ package com.example.bootcamp.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "image_files")
+@Builder
 public class ImageFile {
     @Id
     @GeneratedValue(strategy = IDENTITY)

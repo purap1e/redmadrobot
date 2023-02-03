@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 @Slf4j
@@ -54,8 +55,9 @@ public class AdServiceImpl implements AdService {
     }
 
     @Override
-    public List<Ad> getAds() {
-        return null;
+    public Stream<Ad> getAds() {
+        log.info("Fetching all ads");
+        return adRepository.findAll().stream();
     }
 
     @Override

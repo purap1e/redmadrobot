@@ -11,4 +11,5 @@ public interface FileService {
     ImageFile getFile(Long id);
     Stream<ImageFile> getAllFiles();
     void deleteFile(ImageFile imageFile);
+    byte[] downloadImage(String fileName);
 }

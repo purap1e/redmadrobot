@@ -1,16 +1,21 @@
 package com.example.bootcamp.controllers;
 
 import com.example.bootcamp.entities.Ad;
+import com.example.bootcamp.response.ResponseFile;
 import com.example.bootcamp.response.ResponseMessage;
 import com.example.bootcamp.services.AdService;
+import com.example.bootcamp.services.FileService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -18,9 +23,11 @@ import java.util.List;
 @RequestMapping("/ad")
 public class AdController {
     private final AdService adService;
+    private final FileService fileService;
 
-    public AdController(AdService adService) {
+    public AdController(AdService adService, FileService fileService) {
         this.adService = adService;
+        this.fileService = fileService;
     }
 
     @PostMapping("/upload")
@@ -57,5 +64,22 @@ public class AdController {
     public List<Ad> findAdsByPriceLessThanAndPriceGreaterThan(@PathVariable int min, @PathVariable int max) {
         return adService.findAdsByPriceLessThanAndPriceGreaterThan(min, max);
     }
-
+    @GetMapping("/files/{fileName}")
+    public ResponseEntity<?> downloadImage(@PathVariable String fileName){
+        byte[] imageData = fileService.downloadImage(fileName);
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentType(MediaType.valueOf("image/png"))
+                .body(imageData);
+    }
+        @GetMapping("/files")
+        public ResponseEntity<List<ResponseFile>> getListFiles() {
+            List<ResponseFile> files = adService.getAds().map(dbFile -> new ResponseFile(
+                    dbFile.getId(),
+                    dbFile.getTitle(),
+                    dbFile.getDescription(),
+                    dbFile.getPrice(),
+                    dbFile.getImageFile().getName()
+            )).collect(Collectors.toList());
+            return ResponseEntity.status(HttpStatus.OK).body(files);
+        }
 }
