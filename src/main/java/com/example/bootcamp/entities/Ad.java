@@ -2,17 +2,21 @@ package com.example.bootcamp.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import static jakarta.persistence.FetchType.EAGER;
-import static jakarta.persistence.FetchType.LAZY;
+import java.util.Collections;
+import java.util.List;
+
+import static jakarta.persistence.CascadeType.ALL;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Table(name = "ads")
 public class Ad {
     @Id
@@ -29,8 +33,8 @@ public class Ad {
     private int price;
 
     @Column(name = "active")
-    private boolean isActive;
+    private boolean active;
 
-    @OneToOne(fetch = EAGER)
-    private ImageFile imageFile;
+    @OneToMany(cascade = ALL)
+    private List<AdFIle> adFiles = Collections.emptyList();
 }
