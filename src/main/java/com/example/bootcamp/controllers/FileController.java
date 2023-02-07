@@ -20,7 +20,7 @@ public class FileController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> downloadImage(@PathVariable String id) {
+    public ResponseEntity<?> downloadImage(@PathVariable Long id) {
         AdFIle adFIle = fileService.getById(id);
         byte[] imageData = ImageUtils.decompressImage(adFIle.getData());
         return ResponseEntity.ok()

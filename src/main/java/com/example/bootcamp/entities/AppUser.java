@@ -1,14 +1,15 @@
 package com.example.bootcamp.entities;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
-import static jakarta.persistence.FetchType.EAGER;
-import static jakarta.persistence.GenerationType.IDENTITY;
+import static javax.persistence.FetchType.EAGER;
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Data
@@ -20,12 +21,12 @@ public class AppUser {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "password")
     private String password;
 
     @ManyToMany(fetch = EAGER)
-    private ArrayList<Role> roles = new ArrayList<>();
+    private List<Role> roles = new ArrayList<>();
 }

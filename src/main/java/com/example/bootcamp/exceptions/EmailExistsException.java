@@ -5,9 +5,9 @@ import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+@ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Actor Not Found")
 @Data
 @AllArgsConstructor
-@ResponseStatus(code = HttpStatus.PAYLOAD_TOO_LARGE, reason = "file is too large")
-public class FileTooLargeException extends Exception{
-    private String fileName;
+public class EmailExistsException extends RuntimeException{
+    private String email;
 }
