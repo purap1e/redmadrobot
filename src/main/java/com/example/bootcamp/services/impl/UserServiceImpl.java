@@ -45,7 +45,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public AppUser save(AppUser user) {
         log.info("Saving new user {} to the database", user.getEmail());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -76,10 +75,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public AppUser registerUser(AppUser user) {
-        if (usernameExist(user.getEmail())) {
-            throw new EmailExistsException(user.getEmail());
+    public AppUser register(String email, String password) {
+        if (usernameExist(email)) {
+            throw new EmailExistsException(email);
         } else {
+            List<Role> roles = new ArrayList<>();
+            Role role = roleRepository.findByName("ROLE_USER");
+            roles.add(role);
+            AppUser user = AppUser.builder()
+                    .email(email)
+                    .password(passwordEncoder.encode(password))
+                    .roles(roles).build();
+
             return save(user);
         }
     }

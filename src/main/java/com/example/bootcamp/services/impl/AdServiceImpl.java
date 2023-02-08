@@ -49,7 +49,7 @@ public class AdServiceImpl implements AdService {
                 ad.getTitle(),
                 ad.getDescription(),
                 ad.getPrice(),
-                ad.getAdFiles().stream().map(file -> ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString() + "/files/" + file.getId()).toList())).orElseThrow(() -> new RuntimeException("File not found"));
+                ad.getAdFiles().stream().map(file -> ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString() + "/api/v1/files/" + file.getId()).toList())).orElseThrow(() -> new RuntimeException("File not found"));
     }
 
     @Override

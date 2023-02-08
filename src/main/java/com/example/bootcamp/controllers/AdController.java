@@ -5,6 +5,8 @@ import com.example.bootcamp.entities.Ad;
 import com.example.bootcamp.response.AdDto;
 import com.example.bootcamp.services.AdService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 @RestController
-@RequestMapping("/ads")
+@RequestMapping("/api/v1/ads")
 public class AdController {
     private final AdService adService;
 
