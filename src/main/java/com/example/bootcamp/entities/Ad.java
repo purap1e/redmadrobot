@@ -31,6 +31,7 @@ public class Ad {
     private String description;
 
     private int oldPrice;
+    private String leadingUser;
 
     @Column(name = "price")
     private int price;

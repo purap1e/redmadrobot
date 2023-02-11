@@ -11,6 +11,6 @@ public interface AdService {
     AdDto get(Long id);
     List<AdDto> findAll(int page, int size, int minPrice, int maxPrice, boolean isActive);
 
-    AdDto updatePrice(Long id, int oldPrice, int newPrice);
+    AdDto updatePrice(String email, Long id, int oldPrice, int newPrice);
     void winAd(Long winnerUserId, Long adId);
 }

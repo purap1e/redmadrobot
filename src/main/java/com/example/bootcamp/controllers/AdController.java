@@ -48,10 +48,11 @@ public class AdController {
     }
 
     @PostMapping("/increasePrice")
-    public AdDto updatePrice(@RequestParam Long id,
-                                         @RequestParam int oldPrice,
-                                         @RequestParam int newPrice) {
-        return adService.updatePrice(id, oldPrice, newPrice);
+    public AdDto updatePrice(@RequestParam String userEmail,
+                             @RequestParam Long adId,
+                             @RequestParam int oldPrice,
+                             @RequestParam int newPrice) {
+        return adService.updatePrice(userEmail, adId, oldPrice, newPrice);
     }
 
     @PostMapping("/winner")

@@ -81,24 +81,28 @@ public class AdServiceImpl implements AdService {
     }
 
     @Override
-    public AdDto updatePrice(Long id, int oldPrice, int newPrice) {
-        log.info("Updating price for ad {}", id);
-        Ad ad = adRepository.findById(id).orElseThrow(() -> new RuntimeException("Something went wrong"));
+    public AdDto updatePrice(String email, Long adId, int oldPrice, int newPrice) {
+        log.info("Updating price for ad {}", adId);
+        Ad ad = adRepository.findById(adId).orElseThrow(() -> new RuntimeException("Something went wrong"));
 
         double minPrice = oldPrice * 0.1;
         if (newPrice >= minPrice) {
+            if (ad.getLeadingUser() != null) log.info("User under the email '{}', your bet is outbid", ad.getLeadingUser());
+            ad.setLeadingUser(email);
             ad.setOldPrice(oldPrice);
             ad.setPrice(newPrice);
             adRepository.save(ad);
-            return get(id);
+            return get(adId);
         }
         throw new RuntimeException("New price is too low to increase an ad price");
     }
 
     @Override
     public void winAd(Long winnerUserId, Long adId) {
-        log.info("Fetching ad by id {}", adId);
+        AppUser user = userRepository.findById(winnerUserId).orElseThrow(() -> new RuntimeException("Something went wrong"));
         Ad ad = adRepository.findById(adId).orElseThrow(() -> new RuntimeException("Something went wrong"));
+        log.info("User under the email '{}' won", user.getEmail());
+        log.info("User under the email '{}', your ad has been bought", ad.getUser().getEmail());
         ad.setWinnerUserId(winnerUserId);
         ad.setActive(false);
         adRepository.save(ad);
