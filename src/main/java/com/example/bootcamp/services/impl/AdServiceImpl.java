@@ -53,6 +53,7 @@ public class AdServiceImpl implements AdService {
                 ad.getId(),
                 ad.getTitle(),
                 ad.getDescription(),
+                ad.getOldPrice(),
                 ad.getPrice(),
                 ad.isActive(),
                 ad.getWinnerUserId(),
@@ -69,6 +70,7 @@ public class AdServiceImpl implements AdService {
                         ad.getId(),
                         ad.getTitle(),
                         ad.getDescription(),
+                        ad.getOldPrice(),
                         ad.getPrice(),
                         ad.isActive(),
                         ad.getWinnerUserId(),
@@ -85,11 +87,12 @@ public class AdServiceImpl implements AdService {
 
         double minPrice = oldPrice * 0.1;
         if (newPrice >= minPrice) {
+            ad.setOldPrice(oldPrice);
             ad.setPrice(newPrice);
             adRepository.save(ad);
             return get(id);
         }
-        return null;
+        throw new RuntimeException("New price is too low to increase an ad price");
     }
 
     @Override

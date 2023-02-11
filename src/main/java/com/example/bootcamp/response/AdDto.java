@@ -13,7 +13,8 @@ public class AdDto {
     private Long id;
     private String title;
     private String description;
-    private int price;
+    private int oldPrice;
+    private int newPrice;
     private boolean active;
     private Long winnerUserId;
     private Long adminId;

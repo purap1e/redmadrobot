@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.UUID;
 
 @Service
 @Slf4j
@@ -34,8 +33,6 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public AdFIle getById(Long id) {
-//        log.info("Fetching new adFile {} from the database", fileRepository.findById(UUID.fromString(id)));
-//        return fileRepository.findById(UUID.fromString(id)).orElseThrow(() -> new RuntimeException("File not found"));
         log.info("Fetching new adFile {} from the database",fileRepository.findById(id));
         return fileRepository.findById(id).orElseThrow(() -> new RuntimeException("File not found"));
     }

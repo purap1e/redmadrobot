@@ -30,6 +30,8 @@ public class Ad {
     @Column(name = "description")
     private String description;
 
+    private int oldPrice;
+
     @Column(name = "price")
     private int price;
 
