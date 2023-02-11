@@ -14,5 +14,9 @@ public class AdDto {
     private String title;
     private String description;
     private int price;
+    private boolean active;
+    private Long winnerUserId;
+    private Long adminId;
     private List<String> imageUrls;
+
 }

@@ -7,7 +7,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface AdService {
-    Ad save(Ad ad, List<MultipartFile> files);
+    Ad save(String email, Ad ad, List<MultipartFile> files);
     AdDto get(Long id);
-    List<AdDto> findAll(int page, int size, int minPrice, int maxPrice);
+    List<AdDto> findAll(int page, int size, int minPrice, int maxPrice, boolean isActive);
+
+    AdDto updatePrice(Long id, int oldPrice, int newPrice);
+    void winAd(Long winnerUserId, Long adId);
 }

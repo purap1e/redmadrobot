@@ -38,4 +38,10 @@ public class Ad {
 
     @OneToMany(cascade = ALL)
     private List<AdFIle> adFiles = Collections.emptyList();
+
+    @Column(name = "winner_user_id")
+    private Long winnerUserId;
+
+    @ManyToOne(cascade = ALL)
+    private AppUser user;
 }

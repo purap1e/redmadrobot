@@ -5,7 +5,6 @@ import com.example.bootcamp.entities.Ad;
 import com.example.bootcamp.response.AdDto;
 import com.example.bootcamp.services.AdService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,14 +22,15 @@ public class AdController {
         this.adService = adService;
     }
 
-    @PostMapping
-    public ResponseEntity<?> create(@RequestParam("title") String title,
-                                    @RequestParam("description") String description,
-                                    @RequestParam("price") int price,
-                                    @RequestParam("active") boolean active,
-                                    @RequestParam("imageFiles") List<MultipartFile> files) {
+    @PostMapping("/createAd")
+    public ResponseEntity<?> create(@RequestParam(name = "email") String email,
+                                    @RequestParam(name = "title") String title,
+                                    @RequestParam(name = "description") String description,
+                                    @RequestParam(name = "price") int price,
+                                    @RequestParam(name = "active") boolean active,
+                                    @RequestParam(name = "files") List<MultipartFile> files) {
         Ad ad = Ad.builder().title(title).description(description).price(price).active(active).adFiles(Collections.emptyList()).build();
-        adService.save(ad, files);
+        adService.save(email, ad, files);
         return ResponseEntity.created(URI.create("/ads/" + ad.getId())).build();
     }
 
@@ -43,7 +43,21 @@ public class AdController {
     public List<AdDto> getAll(@RequestParam int page,
                               @RequestParam int size,
                               @RequestParam int minPrice,
-                              @RequestParam int maxPrice) {
-        return adService.findAll(page, size, minPrice, maxPrice);
+                              @RequestParam int maxPrice,
+                              @RequestParam boolean isActive) {
+        return adService.findAll(page, size, minPrice, maxPrice, isActive);
+    }
+
+    @PostMapping("/increasePrice")
+    public AdDto updatePrice(@RequestParam Long id,
+                                         @RequestParam int oldPrice,
+                                         @RequestParam int newPrice) {
+        return adService.updatePrice(id, oldPrice, newPrice);
+    }
+
+    @PostMapping("/winner")
+    public void winAd(@RequestParam Long winnerUserId,
+                      @RequestParam Long adId) {
+        adService.winAd(winnerUserId,adId);
     }
 }

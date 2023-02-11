@@ -12,6 +12,6 @@ import java.util.Optional;
 @Repository
 @Transactional
 public interface AdRepository extends JpaRepository<Ad,Long> {
-    List<Ad> findAdsByPriceGreaterThanAndPriceLessThan(int min, int max, Pageable pageable);
+    List<Ad> findAdsByPriceGreaterThanAndPriceLessThanAndActiveIs(int min, int max, Pageable pageable, boolean isActive);
     Optional<Ad> findById(Long id);
 }
